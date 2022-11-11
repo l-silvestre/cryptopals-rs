@@ -82,7 +82,7 @@ pub fn ex3() {
 pub fn ex4() {
   println!("Ex4:");
   let content = get_challenge_file("4.txt");
-  let content = String::from_utf8(content).expect("err").replace("\n", "").as_bytes().to_vec();
+  let content = String::from_utf8(content).expect("err").replace('\n', "").as_bytes().to_vec();
   let lines = content.chunks(60)
     .map(str::from_utf8)
     .collect::<Result<Vec<&str>, _>>()
@@ -105,7 +105,7 @@ pub fn ex4() {
 
       if score > best_score {
         best_score = score;
-        message = String::from(msg);
+        message = msg;
       }
     }
   }
@@ -138,7 +138,7 @@ I go crazy when I hear a cymbal";
 pub fn ex6() {
   println!("Ex6:");
   let content = get_challenge_file("6.txt");
-  let content = base64_decode(&String::from_utf8(content).expect("err").replace("\n", ""));
+  let content = base64_decode(&String::from_utf8(content).expect("err").replace('\n', ""));
   // println!("{}", hamming_distance_bytes("this is a test".as_bytes(), "wokka wokka!!!".as_bytes()));
   let mut edit_dist: Vec<(usize, f64)> = Vec::new();
 
@@ -149,7 +149,7 @@ pub fn ex6() {
 
   // Extract the shortest distance key
   edit_dist.sort_by(|x, y| y.1.partial_cmp(&x.1).unwrap());
-  let key_sz = edit_dist.pop().and_then(|x| Some(x.0)).unwrap();
+  let key_sz = edit_dist.pop().map(|x| x.0).unwrap();
 
   // divide cyphertext into blocks of keysize
   let blocks = content.chunks_exact(key_sz);
@@ -198,7 +198,7 @@ pub fn ex7() {
   println!("Ex7:");
   let key ="YELLOW SUBMARINE";
   let content = get_challenge_file("7.txt");
-  let content = base64_decode(&String::from_utf8(content).expect("err").replace("\n", ""));
+  let content = base64_decode(&String::from_utf8(content).expect("err").replace('\n', ""));
 
   let res = decrypt_aes_ecb(key, &content);
 
@@ -239,5 +239,5 @@ pub fn ex8() {
   }
   println!("{}", i_line);
 
-  println!("--")
+  println!("--");
 }

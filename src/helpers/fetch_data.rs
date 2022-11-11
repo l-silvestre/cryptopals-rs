@@ -23,13 +23,14 @@ pub fn get_challenge_file(filename: &str) -> Vec<u8> {
   // check if file is already downloaded
   if _file_exists(path.as_str()) {
     // if downloaded read content and return as bytes
-    return _read_bytes(path).as_bytes().to_vec();
+
+    _read_bytes(path).as_bytes().to_vec()
   } else {
     // if not downloaded then download, create and return content
     let target = format!("{}{}", "https://cryptopals.com/static/challenge-data/", filename);
 
     let error = format!("Failed to download file from {}", target);
-    let mut response = reqwest::blocking::get(target).expect(error.as_str());
+    let mut response = reqwest::blocking::get(target).unwrap_or_else(|_| { panic!("{}", error) });
     let mut body = String::new();
     response.read_to_string(&mut body).expect("Failed reading response");
 
@@ -39,12 +40,12 @@ pub fn get_challenge_file(filename: &str) -> Vec<u8> {
     }
 
     let error = format!("Failed to create file {}", path);
-    let mut file = File::create(path.clone()).expect(error.as_str());
+    let mut file = File::create(path.clone()).unwrap_or_else(|_| { panic!("{}", error) });
 
     let error = format!("Failed to write file {}", path);
-    file.write_all(body.as_bytes()).expect(error.as_str());
+    file.write_all(body.as_bytes()).unwrap_or_else(|_| { panic!("{}", error) });
 
-    return body.as_bytes().to_vec();
+    body.as_bytes().to_vec()
   }
 }
 
@@ -52,14 +53,14 @@ pub fn get_challenge_file(filename: &str) -> Vec<u8> {
  * Private function to check if a file exists in provided path; used by exported get_challenge_file function
 */
 fn _file_exists(path: &str) -> bool {
-  return metadata(path).is_ok();
+  metadata(path).is_ok()
 }
 
 /**
  * Private function to read a file used by exported get_challenge_file function
 */
 fn _read_bytes(path: String) -> String {
-  return read_to_string(path)
+  read_to_string(path)
     // .and_then(|res| Ok(res.replace("\n", "")))
     .expect("Error reading file")
 }

@@ -9,11 +9,11 @@ const LETTER_FREQ: [f64; 27] = [
  * Function to xor to pieces of bytes
  */
 pub fn xor(buffer1: &[u8], buffer2: &[u8]) -> Vec<u8> {
-  return buffer1
+  buffer1
     .iter()
     .zip(buffer2.iter())
     .map(|(&b1, &b2)| b1 ^ b2)
-    .collect();
+    .collect()
 }
 
 pub fn repeating_key_xor(message: &str, key: &str) -> Vec<u8> {
@@ -21,9 +21,7 @@ pub fn repeating_key_xor(message: &str, key: &str) -> Vec<u8> {
   let key_bytes = key_seq.as_bytes();
   let msg_bytes = message.as_bytes();
 
-  let xored = xor(&msg_bytes, &key_bytes);
-
-  return xored;
+  xor(msg_bytes, key_bytes)
 }
 
 pub fn calc_letter_freq_score(s: &str) -> f64 {
@@ -45,7 +43,7 @@ pub fn calc_letter_freq_score(s: &str) -> f64 {
       score += (counts[i] as f64) * LETTER_FREQ[i];
   }
 
-  return score;
+  score
 }
 
 pub fn hamming_distance_bytes(b1: &[u8], b2: &[u8]) -> u32 {
@@ -55,7 +53,7 @@ pub fn hamming_distance_bytes(b1: &[u8], b2: &[u8]) -> u32 {
 
   // iterate over first string bytes and join with second string bytes
   // for each pair start with distance 0 and apply function 
-  return b1.iter().zip(b2.iter()).fold(0_u32, |dist, (x1, x2)| {
+  b1.iter().zip(b2.iter()).fold(0_u32, |dist, (x1, x2)| {
     // format bytes as a string of bits
     let bin1 = format!("{:08b}", x1);
     let bin2 = format!("{:08b}", x2);
@@ -69,7 +67,7 @@ pub fn hamming_distance_bytes(b1: &[u8], b2: &[u8]) -> u32 {
       .chars()
       .zip(bin2.chars())
       .fold(0_u32, |d, (ch1, ch2)| if ch1 == ch2 { d } else { d + 1 })
-  });
+  })
 }
 
 pub fn calc_avg_edit_dist(key_sz: usize, txt_bytes: &[u8]) -> f64 {
@@ -92,5 +90,5 @@ pub fn calc_avg_edit_dist(key_sz: usize, txt_bytes: &[u8]) -> f64 {
     i += 1;
   }
 
-  return (dist_sum as f64) / (i as f64 + 1.0);
+  (dist_sum as f64) / (i as f64 + 1.0)
 }

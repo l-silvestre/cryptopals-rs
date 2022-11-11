@@ -4,7 +4,8 @@ use crate::helpers;
 pub fn decrypt_aes_ecb(key: &str, bytes: &[u8]) -> Vec<u8> {
   let cipher = openssl::symm::Cipher::aes_128_ecb();
   let key = key.as_bytes();
-  return decrypt(cipher, key, Some(key), &bytes).unwrap();
+  
+  decrypt(cipher, key, Some(key), bytes).unwrap()
 }
 
 fn pad_pkcs7(message: &str, block_size: usize) -> String {
@@ -15,7 +16,8 @@ fn pad_pkcs7(message: &str, block_size: usize) -> String {
   println!("{}", x);
   let result = format!("{}{}", message, padding);
   println!("{}", result.as_bytes().len());
-  return result;
+  
+  result
 }
 
 // set2 e10
@@ -23,7 +25,8 @@ fn pad_pkcs7(message: &str, block_size: usize) -> String {
 fn encrypt_aes_cbc(key: &str, data: &[u8], iv: &[u8]) -> Vec<u8> {
   let cipher = openssl::symm::Cipher::aes_128_ecb();
   let key = key.as_bytes();
-  return encrypt(cipher, key, Some(iv), &data).unwrap();
+
+  encrypt(cipher, key, Some(iv), data).unwrap()
 }
 
 fn encrypt_cbc_mode(message: &str, key_str: &str, iv_str: &str) -> String {
@@ -41,5 +44,5 @@ fn encrypt_cbc_mode(message: &str, key_str: &str, iv_str: &str) -> String {
       enc_bytes.push(enc_result.into_iter().collect::<Vec<u8>>());
   });
 
-  return hex::encode(enc_bytes.into_iter().flatten().collect::<Vec<u8>>());
+  hex::encode(enc_bytes.into_iter().flatten().collect::<Vec<u8>>())
 }
