@@ -1,8 +1,8 @@
 const LETTER_FREQ: [f64; 27] = [
-    0.08167, 0.01492, 0.02782, 0.04253, 0.12702, 0.02228, 0.02015, // A-G
-    0.06094, 0.06966, 0.00153, 0.00772, 0.04025, 0.02406, 0.06749, // H-N
-    0.07507, 0.01929, 0.00095, 0.05987, 0.06327, 0.09056, 0.02758, // O-U
-    0.00978, 0.02360, 0.00150, 0.01974, 0.00074, 0.19181, // V-Z & space char
+  0.08167, 0.01492, 0.02782, 0.04253, 0.12702, 0.02228, 0.02015, // A-G
+  0.06094, 0.06966, 0.00153, 0.00772, 0.04025, 0.02406, 0.06749, // H-N
+  0.07507, 0.01929, 0.00095, 0.05987, 0.06327, 0.09056, 0.02758, // O-U
+  0.00978, 0.02360, 0.00150, 0.01974, 0.00074, 0.19181, // V-Z & space char
 ];
 
 /**
@@ -29,18 +29,18 @@ pub fn calc_letter_freq_score(s: &str) -> f64 {
   let mut score: f64 = 0_f64;
 
   s.chars().for_each(|c| match c {
-      'a'..='z' => {
-          counts[c as usize - 97] += 1;
-      }
-      'A'..='Z' => {
-          counts[c as usize - 65] += 1;
-      }
-      ' ' => counts[26] += 1,
-      _ => {}
+    'a'..='z' => {
+      counts[c as usize - 97] += 1;
+    }
+    'A'..='Z' => {
+      counts[c as usize - 65] += 1;
+    }
+    ' ' => counts[26] += 1,
+    _ => {}
   });
 
   for i in 0..27 {
-      score += (counts[i] as f64) * LETTER_FREQ[i];
+    score += (counts[i] as f64) * LETTER_FREQ[i];
   }
 
   score
@@ -48,7 +48,7 @@ pub fn calc_letter_freq_score(s: &str) -> f64 {
 
 pub fn hamming_distance_bytes(b1: &[u8], b2: &[u8]) -> u32 {
   if b1.len() != b2.len() {
-      panic!("Unequal byte slices!");
+    panic!("Unequal byte slices!");
   }
 
   // iterate over first string bytes and join with second string bytes
@@ -79,7 +79,7 @@ pub fn calc_avg_edit_dist(key_sz: usize, txt_bytes: &[u8]) -> f64 {
 
   loop {
     if i * 2 * key_sz >= len {
-        break;
+      break;
     }
 
     block1 = &txt_bytes[i * key_sz..(i + 1) * key_sz];
