@@ -14,3 +14,6 @@ pub use xor::calc_avg_edit_dist;
 pub use xor::hamming_distance_bytes;
 pub use xor::repeating_key_xor;
 pub use aes::decrypt_aes_ecb;
+pub use aes::pad_pkcs7;
+pub use aes::encrypt_cbc_mode;
+pub use aes::decrypt_cbc_mode;
